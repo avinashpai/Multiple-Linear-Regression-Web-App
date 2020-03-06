@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Model - {{filename}}</title>
+</head>
+
+
+<body>
+    {% if fig_data is defined %}
+    <!-- For loop fig_data list for multiple photos-->
+    {% for fig in fig_data%}
+    <img src='data:image/png;base64,{{fig}}' />
+    {% endfor %}
+    {% elif model_fig is defined %}
+    <img src='data:image/png;base64,{{model_fig}}' />
+    {% endif %}
+
+    {% if metrics is defined %}
+    <div>
+        <p><strong>Mean Abosulte Error: </strong>{{'%0.3f' % metrics["mae"]|float}}</p>
+        <p><strong>Mean Squared Error: </strong>{{'%0.3f' % metrics["mse"]|float}}</p>
+        <p><strong>Root Mean Squared Error: </strong>{{'%0.3f' % metrics["rmse"]|float}}</p>
+        <p><strong>R<sup>2</sup>: </strong>{{'%0.3f' % metrics["r2"]|float}}</p>
+        <p><strong>Equation: </strong>{{metrics["model_eq"]}}</p>
+    </div>
+
+    <form method="POST">
+        <input type="submit" name="rerun" value="Rerun?">
+    </form>
+
+
+    {% else %}
+    <form method="POST">
+        <div>
+            <h2>Multivariate Linear Regression</h2>
+            <label for="split">Train-Test Split</label>
+            <input type="text" placeholder="80" name="train_test_split" required>
+
+            <button type="submit">Run</button>
+        </div>
+    </form>
+    {% endif %}
+</body>
+
+</html>

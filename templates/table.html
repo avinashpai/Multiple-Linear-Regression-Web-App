@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Table - {{ filename }}</title>
+    <h1>{{ filename }}</h1>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+
+<body>
+    <!-- Create scroll bar and adjust width -->
+    <div id="container">
+        {% for table in tables %}
+        {{ table|safe }}
+        {% endfor %}
+    </div>
+
+
+    {% if option_list is defined%}
+    <form method="POST">
+        <label for="features">Select Features:</label>
+        {% for o in option_list %}
+        <input type="checkbox" id="{{o}}" name="features" value="{{o}}">
+        <label for="{{o}}">{{o}}</label>
+        {% endfor %}
+
+        <label for="dep_var_opt">Output Variable:</label>
+        <select id="dep_var_opt" name="dep_var_opt">
+            {% for o in option_list %}
+            <option name="{{ o }}" selected="selected">{{ o }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit">
+    </form>
+    {% endif %}
+</body>
+
+</html>
