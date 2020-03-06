@@ -120,6 +120,7 @@ def model(filename, features, dep_var):
 
         y_pred = regressor.predict(X_test)
 
+        # create_eq()
         SUB = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
         model_eq = f"y = {regressor.intercept_:.3f}"
         for i in range(len(regressor.coef_)):
