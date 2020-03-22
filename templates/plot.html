@@ -23,10 +23,18 @@
         <p><strong>Root Mean Squared Error: </strong>{{'%0.3f' % metrics["rmse"]|float}}</p>
         <p><strong>R<sup>2</sup>: </strong>{{'%0.3f' % metrics["r2"]|float}}</p>
         <p><strong>Equation: </strong>{{metrics["model_eq"]}}</p>
+
+        {% if pred is defined %}
+        <p><strong>Prediction: </strong>{{'%0.3f' % pred|float}}</p>
+        {% endif %}
     </div>
 
     <form method="POST">
-        <input type="submit" name="rerun" value="Rerun?">
+        <h3>Predict?</h3>
+        <label for="test_features">Feature Values</label>
+        <input type="text" placeholder="feature1,feature2,feature3,..." name="test_features">
+
+        <button type="submit">Run</button>
     </form>
 
 
@@ -41,6 +49,7 @@
         </div>
     </form>
     {% endif %}
+
 </body>
 
 </html>
