@@ -35,6 +35,7 @@ from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from io import BytesIO
 
+
 UPLOAD_FOLDER = "/Users/avinashpai/Documents/flask_model/uploads"
 ALLOWED_EXTENSIONS = {"csv"}
 TWO_DIGIT_NUM = re.compile("^[0-9]{1,2}[:.,-]?$")
@@ -131,7 +132,9 @@ def upload_file():
                 column.replace(" ", "_").lower() for column in data
             ]
 
-            return redirect(url_for("table", filename=filename))
+            return redirect(
+                url_for("table", filename=os.path.splitext(filename)[0])
+            )
     return render_template("upload.html")
 
 
@@ -147,7 +150,10 @@ def table(filename):
 
         return redirect(
             url_for(
-                "model", filename=filename, features=features, dep_var=dep_var
+                "model",
+                filename=os.path.splitext(filename)[0],
+                features=features,
+                dep_var=dep_var,
             )
         )
 
@@ -155,10 +161,11 @@ def table(filename):
     # NOTES:
     # use the html templating to create a page and render this along with the
     # prompt to users to pick features to plot
+
     return render_template(
         "table.html",
-        filename=filename,
-        tables=[data.to_html(classes="data", header="true")],
+        filename=os.path.splitext(filename)[0],
+        tables=[data.to_html(classes="mystyle")],
         option_list=list(data.columns),
     )
 
@@ -191,7 +198,7 @@ def model(filename, features, dep_var):
                 "plot.html",
                 model_fig=model_fig,
                 metrics=metrics_dict,
-                filename=filename,
+                filename=os.path.splitext(filename)[0],
             )
         elif "test_features" in request.form and re.match(
             NUM_LIST, request.form["test_features"]
@@ -210,7 +217,7 @@ def model(filename, features, dep_var):
                 "plot.html",
                 model_fig=model_fig,
                 metrics=metrics_dict,
-                filename=filename,
+                filename=os.path.splitext(filename)[0],
                 pred=pred,
             )
 
@@ -231,4 +238,7 @@ def model(filename, features, dep_var):
         fig.savefig(buf, format="png")
         fig_data.append(base64.b64encode(buf.getbuffer()).decode("ascii"))
 
-    return render_template("plot.html", fig_data=fig_data, filename=filename)
+    return render_template(
+        "plot.html", fig_data=fig_data, filename=os.path.splitext(filename)[0]
+    )
+

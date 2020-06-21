@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>Table - {{ filename }}s</title>
-    <h1>{{ filename }}</h1>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
-</head>
 
-<body>
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <link rel="stylesheet" href="../static/df_style.css" />
+  </head>
+
+  <body>
     <!-- Create scroll bar and adjust width -->
+    <header class="page-title">
+      <h1>Table - {{filename}}</h1>
+      <div class="back-btn">
+        <a href="{{url_for("upload_file")}}"><i class="fas fa-arrow-left"></i></a>
+        
+      </div>
+    </header>
     <div id="container">
-        {% for table in tables %}
-        {{ table|safe }}
-        {% endfor %}
+      {% for table in tables %} {{ table|safe }} {% endfor %}
     </div>
-
 
     {% if option_list is defined%}
     <form method="POST">
+      <div class="table-form">
         <label for="features">Select Features:</label>
         {% for o in option_list %}
-        <input type="checkbox" id="{{o}}" name="features" value="{{o}}">
+        <input type="checkbox" id="{{o}}" name="features" value="{{o}}" />
         <label for="{{o}}">{{o}}</label>
         {% endfor %}
-
+        <br>
         <label for="dep_var_opt">Output Variable:</label>
         <select id="dep_var_opt" name="dep_var_opt">
-            {% for o in option_list %}
-            <option name="{{ o }}" selected="selected">{{ o }}</option>
-            {% endfor %}
+          {% for o in option_list %}
+          <option name="{{ o }}" selected="selected">{{ o }}</option>
+          {% endfor %}
         </select>
 
-        <input type="submit">
+        <input type="submit" class="submit-btn" id="submit-query" />
+      </div>
     </form>
     {% endif %}
-</body>
-
+  </body>
+  <script src="https://kit.fontawesome.com/2252ecb415.js" crossorigin="anonymous"></script>
 </html>

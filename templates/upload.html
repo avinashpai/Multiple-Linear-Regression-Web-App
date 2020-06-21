@@ -2,16 +2,34 @@
 <html>
 
 <head>
-    <title>Multivariate Linear Regression</title>
+    <title>Multiple Linear Regression</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 
 <body>
-    <h1>Upload CSV</h1>
-    <form method=post enctype=multipart/form-data>
-        <input type=file name=file>
-        <input type=submit value=Upload>
-    </form>
+    <header class="page-title">
+        <h1>Multiple Linear Regression</h1>
+        
+    </header>
+    <div class="format-field">
+        <div class="form-heading">
+            <h2>Upload CSV</h2>
+        </div>
+        <form method=post enctype=multipart/form-data>
+            <input id="browse-btn" type=file name=file>
+            <span class="file-btn">Add File</span>
+            <input class="submit-btn" type=submit value=Upload>
+        </form>
+    </div>
+
+    <script>
+        let fileBtn = document.querySelector(".file-btn");
+        let browseBtn = document.querySelector("#browse-btn");
+        fileBtn.addEventListener('click', (e) => {
+            browseBtn.click();
+        })
+    </script>
 </body>
 
 </html>

@@ -1,55 +1,73 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>Model - {{filename}}</title>
-</head>
+    <link rel="stylesheet" type="text/css" href="../../static/style.css" />
+  </head>
 
+  <body>
+    <header class="page-title">
+      <h1>Plots - {{filename}}</h1>
+      <div class="back-btn">
+        <a href="{{url_for('table', filename=filename)}}"
+          ><i class="fas fa-arrow-left"></i
+        ></a>
+      </div>
+    </header>
 
-<body>
     {% if fig_data is defined %}
     <!-- For loop fig_data list for multiple photos-->
     {% for fig in fig_data%}
-    <img src='data:image/png;base64,{{fig}}' />
-    {% endfor %}
-    {% elif model_fig is defined %}
-    <img src='data:image/png;base64,{{model_fig}}' />
-    {% endif %}
-
-    {% if metrics is defined %}
+    <img src="data:image/png;base64,{{fig}}" />
+    {% endfor %} {% elif model_fig is defined %}
+    <img src="data:image/png;base64,{{model_fig}}" />
+    {% endif %} {% if metrics is defined %}
     <div>
-        <p><strong>Mean Abosulte Error: </strong>{{'%0.3f' % metrics["mae"]|float}}</p>
-        <p><strong>Mean Squared Error: </strong>{{'%0.3f' % metrics["mse"]|float}}</p>
-        <p><strong>Root Mean Squared Error: </strong>{{'%0.3f' % metrics["rmse"]|float}}</p>
-        <p><strong>R<sup>2</sup>: </strong>{{'%0.3f' % metrics["r2"]|float}}</p>
-        <p><strong>Equation: </strong>{{metrics["model_eq"]}}</p>
+      <p>
+        <strong>Mean Abosulte Error: </strong>{{'%0.3f' % metrics["mae"]|float}}
+      </p>
+      <p>
+        <strong>Mean Squared Error: </strong>{{'%0.3f' % metrics["mse"]|float}}
+      </p>
+      <p>
+        <strong>Root Mean Squared Error: </strong>{{'%0.3f' %
+        metrics["rmse"]|float}}
+      </p>
+      <p><strong>R<sup>2</sup>: </strong>{{'%0.3f' % metrics["r2"]|float}}</p>
+      <p><strong>Equation: </strong>{{metrics["model_eq"]}}</p>
 
-        {% if pred is defined %}
-        <p><strong>Prediction: </strong>{{'%0.3f' % pred|float}}</p>
-        {% endif %}
+      {% if pred is defined %}
+      <p><strong>Prediction: </strong>{{'%0.3f' % pred|float}}</p>
+      {% endif %}
     </div>
 
     <form method="POST">
-        <h3>Predict?</h3>
-        <label for="test_features">Feature Values</label>
-        <input type="text" placeholder="feature1,feature2,feature3,..." name="test_features">
+      <h3>Predict?</h3>
+      <label for="test_features">Feature Values</label>
+      <input
+        type="text"
+        placeholder="feature1,feature2,feature3,..."
+        name="test_features"
+      />
 
-        <button type="submit">Run</button>
+      <button type="submit">Run</button>
     </form>
-
 
     {% else %}
     <form method="POST">
-        <div>
-            <h2>Multivariate Linear Regression</h2>
-            <label for="split">Train-Test Split</label>
-            <input type="text" placeholder="80" name="train_test_split" required>
+      <div>
+        <h2>Multivariate Linear Regression</h2>
+        <label for="split">Train-Test Split</label>
+        <input type="text" placeholder="80" name="train_test_split" required />
 
-            <button type="submit">Run</button>
-        </div>
+        <button type="submit">Run</button>
+      </div>
     </form>
     {% endif %}
 
-</body>
-
+    <script
+      src="https://kit.fontawesome.com/2252ecb415.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
